@@ -227,6 +227,45 @@ button:disabled {
   text-align: left;
 }
 
+.edit-toggle-section {
+  text-align: left;
+}
+
+.edit-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 8px 0;
+}
+
+.edit-toggle-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+#edit-password-section {
+  margin-top: 8px;
+}
+
+#edit-password-section input {
+  width: 100%;
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-primary);
+  padding: 12px 14px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+#edit-password-section input:focus {
+  outline: none;
+  border-color: #007acc;
+}
+
 .home-actions {
   display: flex;
   gap: 12px;

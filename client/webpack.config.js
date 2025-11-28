@@ -28,7 +28,8 @@ export default {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      filename: 'index.html'
+      filename: 'index.html',
+      favicon: './src/favicon.svg'
     }),
     new MonacoWebpackPlugin({
       languages: ['javascript', 'typescript', 'json', 'html', 'css', 'markdown']

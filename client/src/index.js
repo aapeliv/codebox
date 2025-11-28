@@ -418,33 +418,73 @@ async function renderNotepad(slug) {
     return
   }
 
-  // Check if we need authentication
-  const needsPassword = info.protection === 'edit-protected' || info.protection === 'full-protected'
+  // Check protection type
+  const isEditProtected = info.protection === 'edit-protected'
+  const isFullProtected = info.protection === 'full-protected'
   const isViewOnly = info.protection === 'view-only'
 
   // Get saved values from localStorage
   const savedUsername = getSavedUsername()
   const savedPassword = getSavedPassword(slug)
 
+  // Build info message based on protection type
+  let infoMessage = ''
+  if (isViewOnly) {
+    infoMessage = '<p class="info">This notepad is read-only.</p>'
+  } else if (isFullProtected) {
+    infoMessage = '<p class="info">This notepad requires a password to view.</p>'
+  }
+  // For edit-protected, the message is shown within the toggle section
+
   app.innerHTML = `
     <div class="auth-container">
       <h1>Join "${slug}"</h1>
-      ${isViewOnly ? '<p class="info">This notepad is read-only.</p>' : ''}
-      ${needsPassword ? '<p class="info">This notepad requires a password.</p>' : ''}
+      ${infoMessage}
       <form id="join-form">
         <input type="text" id="join-name" placeholder="Your name" value="${savedUsername.replace(/"/g, '&quot;')}" required>
-        ${needsPassword ? `<input type="password" id="join-password" placeholder="Notepad password" value="${savedPassword.replace(/"/g, '&quot;')}">` : ''}
-        <button type="submit">Join</button>
+        ${isFullProtected ? `<input type="password" id="join-password" placeholder="Password" value="${savedPassword.replace(/"/g, '&quot;')}" required>` : ''}
+        ${isEditProtected ? `
+          <div class="edit-toggle-section">
+            <label class="edit-toggle-label">
+              <input type="checkbox" id="want-edit" ${savedPassword ? 'checked' : ''}>
+              <span>I want to edit</span>
+            </label>
+            <div id="edit-password-section" class="${savedPassword ? '' : 'hidden'}">
+              <input type="password" id="join-password" placeholder="Edit password" value="${savedPassword.replace(/"/g, '&quot;')}">
+            </div>
+          </div>
+        ` : ''}
+        <button type="submit">${isViewOnly ? 'View' : (isEditProtected ? 'Join' : 'Join')}</button>
         <div id="join-error" class="error"></div>
       </form>
     </div>
   `
 
+  // Handle edit toggle for edit-protected notepads
+  if (isEditProtected) {
+    const wantEditCheckbox = document.getElementById('want-edit')
+    const editPasswordSection = document.getElementById('edit-password-section')
+
+    wantEditCheckbox.addEventListener('change', () => {
+      editPasswordSection.classList.toggle('hidden', !wantEditCheckbox.checked)
+    })
+  }
+
   document.getElementById('join-form').addEventListener('submit', async (e) => {
     e.preventDefault()
     const userName = document.getElementById('join-name').value.trim()
-    const password = needsPassword ? document.getElementById('join-password').value : null
     const errorEl = document.getElementById('join-error')
+
+    // Determine password based on protection type
+    let password = null
+    if (isFullProtected) {
+      password = document.getElementById('join-password').value
+    } else if (isEditProtected) {
+      const wantEdit = document.getElementById('want-edit').checked
+      if (wantEdit) {
+        password = document.getElementById('join-password').value
+      }
+    }
 
     try {
       const authData = await notepad.authenticate(slug, userName, password)

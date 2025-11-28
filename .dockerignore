@@ -1,0 +1,16 @@
+node_modules/
+client/node_modules/
+server/node_modules/
+client/dist/
+server/data/
+.git/
+.gitignore
+*.log
+.env
+.env.local
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
