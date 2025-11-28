@@ -1,0 +1,18 @@
+{
+  "name": "codebox-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "lib0": "^0.2.94",
+    "ws": "^8.16.0",
+    "y-websocket": "^2.0.4",
+    "yjs": "^13.6.15"
+  }
+}

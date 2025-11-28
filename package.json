@@ -1,0 +1,15 @@
+{
+  "name": "codebox",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "node server/index.js",
+    "dev:client": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "start": "npm run dev:server"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

@@ -1,0 +1,465 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Dark theme (default) */
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #252526;
+  --bg-tertiary: #3c3c3c;
+  --border-color: #3c3c3c;
+  --text-primary: #fff;
+  --text-secondary: #ccc;
+  --text-muted: #888;
+  --input-bg: #3c3c3c;
+  --input-border: #555;
+}
+
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-tertiary: #e8e8e8;
+  --border-color: #ddd;
+  --text-primary: #1e1e1e;
+  --text-secondary: #333;
+  --text-muted: #666;
+  --input-bg: #fff;
+  --input-border: #ccc;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: #4fc3f7;
+}
+
+/* ============ Header ============ */
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+header h1 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.doc-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.doc-slug {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.doc-mode {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.mode-edit {
+  background: #2d5a2d;
+  color: #4ec94e;
+}
+
+.mode-view {
+  background: #5a4a2d;
+  color: #c9a94e;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-name {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.theme-toggle {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-primary);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.theme-toggle:focus {
+  outline: none;
+  border-color: #007acc;
+}
+
+.status {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: capitalize;
+}
+
+.status.connected {
+  background: #2d5a2d;
+  color: #4ec94e;
+}
+
+.status.connecting {
+  background: #5a5a2d;
+  color: #c9c94e;
+}
+
+.status.disconnected {
+  background: #5a2d2d;
+  color: #c94e4e;
+}
+
+button, .btn {
+  background: #0e639c;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button:hover, .btn:hover {
+  background: #1177bb;
+}
+
+button:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+#editor {
+  flex: 1;
+  width: 100%;
+}
+
+/* ============ Auth / Join Forms ============ */
+
+.auth-container, .home-container {
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 32px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.auth-container h1, .home-container h1 {
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.auth-container p, .home-container p {
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.auth-container p.info {
+  background: #2d3a4a;
+  padding: 8px 12px;
+  border-radius: 4px;
+  color: #8cb4d8;
+  font-size: 13px;
+}
+
+[data-theme="light"] .auth-container p.info {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+
+.auth-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-container input {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-primary);
+  padding: 12px 14px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.auth-container input:focus {
+  outline: none;
+  border-color: #007acc;
+}
+
+.error {
+  color: #f44;
+  font-size: 13px;
+  text-align: left;
+}
+
+.home-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+/* ============ Admin Dashboard ============ */
+
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.admin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.admin-header h1 {
+  font-size: 20px;
+}
+
+.admin-content {
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.admin-section {
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.admin-section h2 {
+  font-size: 16px;
+  margin-bottom: 16px;
+  color: var(--text-secondary);
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.create-form input,
+.create-form select {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-primary);
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.create-form input:focus,
+.create-form select:focus {
+  outline: none;
+  border-color: #007acc;
+}
+
+.password-row {
+  display: flex;
+  gap: 8px;
+}
+
+.password-row input {
+  flex: 1;
+}
+
+.toggle-pwd {
+  padding: 10px 12px;
+  font-size: 12px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ============ Notepads List ============ */
+
+.notepads-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notepads-list .empty {
+  color: var(--text-muted);
+  text-align: center;
+  padding: 24px;
+}
+
+.notepad-item {
+  background: var(--bg-primary);
+  border-radius: 6px;
+  padding: 12px 16px;
+}
+
+.notepad-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.notepad-slug {
+  font-weight: 500;
+  color: #4fc3f7;
+  text-decoration: none;
+}
+
+.notepad-slug:hover {
+  text-decoration: underline;
+}
+
+.notepad-protection {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.protection-none {
+  background: #2d5a2d;
+  color: #4ec94e;
+}
+
+.protection-view-only {
+  background: #5a4a2d;
+  color: #c9a94e;
+}
+
+.protection-edit-protected {
+  background: #4a3d5a;
+  color: #a94ec9;
+}
+
+.protection-full-protected {
+  background: #5a2d2d;
+  color: #c94e4e;
+}
+
+.notepad-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.notepad-actions button {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.delete-btn {
+  background: #5a2d2d;
+}
+
+.delete-btn:hover {
+  background: #7a3d3d;
+}
+
+.notepad-edit-form {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notepad-edit-form select,
+.notepad-edit-form input {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-primary);
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-actions button {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.cancel-btn {
+  background: #555;
+}
+
+.cancel-btn:hover {
+  background: #666;
+}
+
+/* ============ Remote Cursors ============ */
+
+/* Base styles - colors and visibility are set dynamically per user */
+.yRemoteSelection {
+  background-color: rgba(100, 100, 100, 0.3);
+}
+
+[class*="yRemoteSelectionHead"] {
+  position: absolute;
+  border-left: 2px solid;
+  height: 100%;
+  box-sizing: border-box;
+  pointer-events: auto;
+}
+
+[class*="yRemoteSelectionHead"]::after {
+  position: absolute;
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  left: -4px;
+  top: -3px;
+  transition: opacity 0.2s ease;
+}
+
+[class*="yRemoteSelectionHead"]::before {
+  z-index: 1000;
+  transition: opacity 0.3s ease;
+}
