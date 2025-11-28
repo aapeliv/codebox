@@ -43,6 +43,21 @@ function getSavedTheme() {
 // Branding: set to false to hide the "Powered by Codebox" message
 const SHOW_BRANDING = true
 
+// Available languages for syntax highlighting
+const LANGUAGES = [
+  { id: 'markdown', label: 'Markdown' },
+  { id: 'plaintext', label: 'Plain Text' },
+  { id: 'javascript', label: 'JavaScript' },
+  { id: 'typescript', label: 'TypeScript' },
+  { id: 'python', label: 'Python' },
+  { id: 'html', label: 'HTML' },
+  { id: 'css', label: 'CSS' },
+  { id: 'json', label: 'JSON' },
+  { id: 'yaml', label: 'YAML' },
+  { id: 'sql', label: 'SQL' },
+  { id: 'shell', label: 'Shell' }
+]
+
 function saveTheme(theme) {
   localStorage.setItem('codebox_theme', theme)
 }
@@ -533,6 +548,13 @@ function createBranding() {
   `
 }
 
+function createLanguageSelector(currentLanguage = 'markdown') {
+  const options = LANGUAGES.map(lang =>
+    `<option value="${lang.id}" ${currentLanguage === lang.id ? 'selected' : ''}>${lang.label}</option>`
+  ).join('')
+  return `<select id="language-select" class="language-select">${options}</select>`
+}
+
 function startEditor(slug, token, canEdit, userName) {
   const app = document.getElementById('app')
 
@@ -545,6 +567,7 @@ function startEditor(slug, token, canEdit, userName) {
       </div>
       <div class="controls">
         <span class="user-name">${userName}</span>
+        ${createLanguageSelector()}
         <span id="status" class="status hidden">connecting</span>
         ${createThemeToggle()}
         <button id="connect-btn" class="hidden">Reconnect</button>
@@ -566,12 +589,14 @@ function startEditor(slug, token, canEdit, userName) {
   })
 
   const ytext = ydoc.getText('monaco')
+  const ySettings = ydoc.getMap('settings')
 
   // Create Monaco editor
   const editorTheme = getEffectiveTheme() === 'dark' ? 'vs-dark' : 'vs'
+  const initialLanguage = ySettings.get('language') || 'markdown'
   const editor = monaco.editor.create(document.getElementById('editor'), {
     value: '',
-    language: 'markdown',
+    language: initialLanguage,
     theme: editorTheme,
     automaticLayout: true,
     minimap: { enabled: false },
@@ -580,6 +605,39 @@ function startEditor(slug, token, canEdit, userName) {
     wordWrap: 'on',
     padding: { top: 16 },
     readOnly: !canEdit
+  })
+
+  // Update language selector to match synced value
+  const languageSelect = document.getElementById('language-select')
+
+  function updateLanguageFromYjs() {
+    const language = ySettings.get('language') || 'markdown'
+    if (languageSelect.value !== language) {
+      languageSelect.value = language
+    }
+    const currentModel = editor.getModel()
+    if (currentModel && monaco.editor.getModel(currentModel.uri)) {
+      const currentLang = currentModel.getLanguageId()
+      if (currentLang !== language) {
+        monaco.editor.setModelLanguage(currentModel, language)
+      }
+    }
+  }
+
+  // Listen for remote changes to language setting
+  ySettings.observe(() => {
+    updateLanguageFromYjs()
+  })
+
+  // Update once synced
+  provider.on('sync', () => {
+    updateLanguageFromYjs()
+  })
+
+  // Language selector handler - update Yjs when user changes
+  languageSelect.addEventListener('change', (e) => {
+    const newLanguage = e.target.value
+    ySettings.set('language', newLanguage)
   })
 
   // Bind Yjs to Monaco

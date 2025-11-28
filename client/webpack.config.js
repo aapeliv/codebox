@@ -32,7 +32,7 @@ export default {
       favicon: './src/favicon.svg'
     }),
     new MonacoWebpackPlugin({
-      languages: ['javascript', 'typescript', 'json', 'html', 'css', 'markdown']
+      languages: ['javascript', 'typescript', 'json', 'html', 'css', 'markdown', 'python', 'yaml', 'sql', 'shell', 'plaintext']
     })
   ],
   devServer: {

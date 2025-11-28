@@ -104,7 +104,8 @@ header h1 {
   color: var(--text-muted);
 }
 
-.theme-toggle {
+.theme-toggle,
+.language-select {
   background: var(--input-bg);
   border: 1px solid var(--input-border);
   color: var(--text-primary);
@@ -114,7 +115,8 @@ header h1 {
   cursor: pointer;
 }
 
-.theme-toggle:focus {
+.theme-toggle:focus,
+.language-select:focus {
   outline: none;
   border-color: #007acc;
 }
