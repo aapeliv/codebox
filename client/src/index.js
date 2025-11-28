@@ -40,6 +40,9 @@ function getSavedTheme() {
   return localStorage.getItem('codebox_theme') || 'system'
 }
 
+// Branding: set to false to hide the "Powered by Codebox" message
+const SHOW_BRANDING = true
+
 function saveTheme(theme) {
   localStorage.setItem('codebox_theme', theme)
 }
@@ -521,6 +524,15 @@ function attachThemeToggle() {
   }
 }
 
+function createBranding() {
+  if (!SHOW_BRANDING) return ''
+  return `
+    <div class="branding">
+      Powered by <a href="https://github.com/aapeliv/codebox" target="_blank">Codebox</a> by <a href="https://www.aapelivuorinen.com/" target="_blank">Aapeli</a>
+    </div>
+  `
+}
+
 function startEditor(slug, token, canEdit, userName) {
   const app = document.getElementById('app')
 
@@ -539,6 +551,7 @@ function startEditor(slug, token, canEdit, userName) {
       </div>
     </header>
     <div id="editor"></div>
+    ${createBranding()}
   `
 
   attachThemeToggle()

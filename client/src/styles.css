@@ -167,6 +167,36 @@ button:disabled {
   width: 100%;
 }
 
+/* ============ Branding ============ */
+
+.branding {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--bg-secondary);
+  padding: 6px 10px;
+  border-radius: 4px;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  z-index: 100;
+}
+
+.branding:hover {
+  opacity: 1;
+}
+
+.branding a {
+  color: var(--text-secondary);
+  text-decoration: none;
+}
+
+.branding a:hover {
+  text-decoration: underline;
+}
+
+
 /* ============ Auth / Join Forms ============ */
 
 .auth-container, .home-container {
